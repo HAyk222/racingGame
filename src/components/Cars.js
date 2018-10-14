@@ -6,16 +6,41 @@ import Lexus from './svg/Lexus.svg';
 import Audi from './svg/Audi.svg';
 
 export default class Cars extends Component {
+  carModel(expression){
+    switch(expression) {
+      case "Mercedes":
+        return Mercedes
+        break;
+      case "BMW":
+        return BMW
+        break;
+      case "Toyota":
+        return Toyota
+        break;
+      case "Lexus":
+        return Lexus
+        break;
+      default:
+        return Audi
+    }
+  }
+
+  cl(active, i){
+    if(this.props.cars[i].checked){
+      return active;
+    }
+  } 
+
   render() {
-  	const { cars, tracks, data, start } = this.props
+  	const { cars, tracks, data, start, addCar } = this.props 
     return (
     	<div className="cars">
     		{ cars.map( (item, index) => { 
-    			let url = window[item.model]
-    			console.log(url)
     			return ( 
-    				<div key={index} className="car"> 
-    					<img src={window[item.model]}  alt="sedan" />
+    				<div key={index} className={ cars[index].checked ? "car carActive" : "car" } onClick={() => addCar(item, index)} > 
+    					<img src={this.carModel(item.model)}  alt="sedan" />
+              <div>{item.model} {item.speed}px</div>
+              {cars[index].checked ? <span className="red"> Remove </span> : <span> Add </span>}
     				</div> 
     			);
     		 } ) }
